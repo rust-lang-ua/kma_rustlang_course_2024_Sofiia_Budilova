@@ -7,7 +7,7 @@
 // Make this code compile! Execute `rustlings hint advanced_errs1` for
 // hints :)
 
-// I AM NOT DONE
+// I AM DONE
 
 use std::num::ParseIntError;
 use std::str::FromStr;
@@ -24,6 +24,13 @@ impl From<CreationError> for ParsePosNonzeroError {
     fn from(e: CreationError) -> Self {
         // TODO: complete this implementation so that the `?` operator will
         // work for `CreationError`
+        Self::Creation(e)
+    }
+}
+
+impl From<ParseIntError> for ParsePosNonzeroError {
+    fn from(e: ParseIntError) -> Self {
+        Self::ParseInt(e)
     }
 }
 
@@ -67,10 +74,12 @@ mod test {
     #[test]
     fn test_parse_error() {
         // We can't construct a ParseIntError, so we have to pattern match.
-        assert!(matches!(
-            PositiveNonzeroInteger::from_str("not a number"),
-            Err(ParsePosNonzeroError::ParseInt(_))
-        ));
+        assert!(
+            matches!(
+                PositiveNonzeroInteger::from_str("not a number"),
+                Err(ParsePosNonzeroError::ParseInt(_))
+            )
+        );
     }
 
     #[test]
